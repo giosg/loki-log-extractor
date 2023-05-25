@@ -8,7 +8,7 @@ set -e
 LOGCLI_PATH="/usr/local/bin/logcli"
 START_TIME="$(date -d 'yesterday' -u +%Y-%m-%dT%H:%M:%SZ)"
 END_TIME="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-QUERY='{job="infra/jenkins"}' 
+#QUERY='{job="infra/jenkins"}' 
 GPG_RECEPIENT="s3logs@giosg.com"
 S3_BUCKET="loki-minio-logs" 
 
@@ -28,6 +28,8 @@ if [[ -z "$GPG_PUBLIC_KEY_PATH" || ! -f "$GPG_PUBLIC_KEY_PATH" ]]; then
 fi
 
 gpg --import "$GPG_PUBLIC_KEY_PATH"
+
+QUERY="$1" 
 
 if [ -d "$(dirname "$PART_PATH_PREFIX")" ]; then
     # Run logcli with the specified query and time range, and save the output to a file
