@@ -1,25 +1,19 @@
 #!/bin/bash
 
 set -e 
-export LOKI_ADDR="http://k8s-loki-gateway-loki.service.fsn1-sb.giosg.local:30101"  
- 
-# Define the query and time range
-
-export LOGCLI_PATH="/usr/local/bin/logcli"
-export START_TIME="$(date -d 'yesterday' -u +%Y-%m-%dT%H:%M:%SZ)"
-export END_TIME="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-# QUERY='{job="infra/jenkins"}' 
-export GPG_RECEPIENT="s3logs@giosg.com"
-export S3_BUCKET="loki-minio-logs" 
-
-export OUTPUT_FILE="$(date --date='yesterday' '+%F').txt"
-export COMPRESSED_FILE="$OUTPUT_FILE.xz" 
-export ENCRYPTED_FILE="$COMPRESSED_FILE.gpg" 
-export MAX_ARCHIVE_SIZE=10485760
-
-export GPG_PUBLIC_KEY_PATH=secrets/gpg_public_key.asc
-export PART_PATH_PREFIX=/tmp/my_query
-export PARALLEL_MAX_WORKERS=4
+: ${LOGCLI_PATH:="/usr/local/bin/logcli"} 
+: ${LOKI_ADDR:="http://k8s-loki-gateway-loki.service.fsn1-sb.giosg.local:30101"} 
+: ${START_TIME:="$(date -d 'yesterday' -u +%Y-%m-%dT%H:%M:%SZ)"}
+: ${END_TIME:="$(date -u +%Y-%m-%dT%H:%M:%SZ)"}
+: ${GPG_RECEPIENT:="s3logs@giosg.com"}
+: ${S3_BUCKET:="loki-minio-logs"}
+: ${OUTPUT_FILE:="$(date --date='yesterday' '+%F').txt"}
+: ${COMPRESSED_FILE:="$OUTPUT_FILE.xz"}
+: ${ENCRYPTED_FILE:="$COMPRESSED_FILE.gpg"}
+: ${MAX_ARCHIVE_SIZE:=10485760}
+: ${GPG_PUBLIC_KEY_PATH:=secrets/gpg_public_key.asc}
+: ${PART_PATH_PREFIX:=/tmp/my_query}
+: ${PARALLEL_MAX_WORKERS:=4}
 
 #Preliminary checks
 
