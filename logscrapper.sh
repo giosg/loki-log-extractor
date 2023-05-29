@@ -33,6 +33,7 @@ fi
 gpg --import "$GPG_PUBLIC_KEY_PATH"
 
 if [ -d "$(dirname "$PART_PATH_PREFIX")" ]; then
+   FILENAME_PREFIX=$(echo "$QUERY" | tr -d '\"\/_')
     # Run logcli with the specified query and time range, and save the output to a file
     "$LOGCLI_PATH"   query "$QUERY" --timezone=UTC --from="$START_TIME" --to="$END_TIME"  --output=default --parallel-duration="5m" \
       --part-path-prefix="$PART_PATH_PREFIX" --merge-parts --parallel-max-workers="$PARALLEL_MAX_WORKERS" --quiet > "$OUTPUT_FILE"
@@ -56,7 +57,7 @@ if [ -d "$(dirname "$PART_PATH_PREFIX")" ]; then
     fi
 
     if aws s3 ls "s3://$S3_BUCKET" 2>/dev/null; then
-            aws s3 cp "$ENCRYPTED_FILE" "s3://$S3_BUCKET/$ENCRYPTED_FILE"
+            aws s3 cp "$ENCRYPTED_FILE"  "s3://$S3_BUCKET/${FILENAME_PREFIX}_${ENCRYPTED_FILE}"
     else
         echo "AWS S3 bucket doesn't exist."
         exit 1;
