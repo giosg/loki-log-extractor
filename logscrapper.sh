@@ -18,22 +18,13 @@ ENCRYPTED_FILE="$COMPRESSED_FILE.gpg"
 #Preliminary checks
 
 QUERY="$1" 
-START_TIME=$2
-END_TIME=$3
 
 INPUT_TIME="$(date -d "$START_TIME" -u +%Y-%m-%dT%H:%M:%SZ)"
 OUTPUT_TIME="$(date -d "$END_TIME" -u +%Y-%m-%dT%H:%M:%SZ)"
 
-
 # Check if the logcli query is empty
 if [ -z "$QUERY" ]; then
     echo "Logcli query is empty."
-    exit 1
-fi
-
-# Check if the time slots are empty
-if [[ -z "$START_TIME"|| -z "$END_TIME" ]]; then
-    echo "The time slots are wrong"
     exit 1
 fi
 
