@@ -1,0 +1,17 @@
+image: giosg/logscrapper
+tag: latest
+secretEnv: {}
+logcliPath: "/path/to/logcli"
+logEndpoint: "http://example.com/logs"
+startTime: "$(date -d 'yesterday' -u +%Y-%m-%dT%H:%M:%SZ)"
+endTime: "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+outputFile: "logs_output.txt"
+compressedFile: "logs_output.txt.gz"
+encryptedFile: "logs_output.txt.gz.gpg"
+s3Bucket: "loki-minio-logs"
+awsAccessKeyId: "access-key"
+awsSecretAccessKey: "secret-access-key"
+awsDefaultRegion: "region"
+gpgPublicKey: "public-key-file.asc"
+logcliQuery: "logcli_query"
+cronSchedule: "0 0 * * *"

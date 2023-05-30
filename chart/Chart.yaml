@@ -1,0 +1,6 @@
+# Chart.yaml
+
+apiVersion: v2
+name: logscrapper-job-chart
+version: 0.1.0
+description: A Helm chart to deploy the logscrapper script as a Kubernetes Job
