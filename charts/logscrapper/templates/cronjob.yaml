@@ -1,9 +1,12 @@
+{{- $ := . }}
+{{- range $k, $v := .Values.instances }}
+---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: {{ .Release.Name }}-cronjob
+  name: {{ template "logscrapper.fullname" $ }}-{{ $k }}
 spec:
-  schedule: {{ .Values.cronSchedule }}
+  schedule: {{ $v.cronSchedule }}
   jobTemplate:
     spec:
       template:
@@ -11,37 +14,38 @@ spec:
           volumes:
           - name: gpg
             secret:
-              secretName: {{ template "logscrapper.fullname" . }}-gpg
+              secretName: {{ template "logscrapper.fullname" $ }}-gpg
           containers:
-            - name: {{ .Release.Name }}
-              image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-              imagePullPolicy: {{ .Values.image.pullPolicy }}
-              env:
-              - name: LOG_ENDPOINT
-                value: {{ .Values.logEndpoint }}
-              - name: START_TIME
-                value: {{ .Values.startTime }}
-              - name: END_TIME
-                value: {{ .Values.endTime }}
-              - name: S3_PATH
-                value: {{ .Values.s3Path }}
-              - name: GPG_PUBLIC_KEY_FILE
-                value: "/etc/gpg/gpg_public_key.asc"
-              - name: AWS_ACCESS_KEY_ID
-                valueFrom:
-                  secretKeyRef:
-                    name: {{ template "logscrapper.fullname" . }}
-                    key: awsAccessKeyId
-              - name: AWS_SECRET_ACCESS_KEY
-                valueFrom:
-                  secretKeyRef:
-                    name: {{ template "logscrapper.fullname" . }}
-                    key: awsSecretAccessKey
-              - name: AWS_DEFAULT_REGION
-                value: {{ .Values.awsDefaultRegion }}
-              args: ["{{ .Values.logcliQuery }}"]
-              volumeMounts:
-              - name: gpg
-                readOnly: true
-                mountPath: "/etc/gpg"
+          - name: logscrapper
+            image: {{ $.Values.image.repository }}:{{ $.Values.image.tag }}
+            imagePullPolicy: {{ $.Values.image.pullPolicy }}
+            env:
+            - name: LOG_ENDPOINT
+              value: {{ $.Values.logEndpoint }}
+            - name: START_TIME
+              value: {{ $v.startTime }}
+            - name: END_TIME
+              value: {{ $v.endTime }}
+            - name: S3_PATH
+              value: {{ $.Values.s3Path }}
+            - name: GPG_PUBLIC_KEY_FILE
+              value: "/etc/gpg/gpg_public_key.asc"
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "logscrapper.fullname" $ }}
+                  key: awsAccessKeyId
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "logscrapper.fullname" $ }}
+                  key: awsSecretAccessKey
+            - name: AWS_DEFAULT_REGION
+              value: {{ $.Values.awsDefaultRegion }}
+            args: ['{{ $v.logcliQuery }}']
+            volumeMounts:
+            - name: gpg
+              readOnly: true
+              mountPath: "/etc/gpg"
           restartPolicy: OnFailure
+{{- end }}

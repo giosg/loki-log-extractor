@@ -5,14 +5,16 @@ image:
 
 logEndpoint: "http://localhost"
 
-startTime: "yesterday 00:00:00"
-endTime: "today 00:00:00"
-
-s3Path: Null
 awsAccessKeyId: ""
 awsSecretAccessKey: ""
 awsDefaultRegion: "eu-west-1"
+s3Path: ""
 
 gpgPublicKey: ""
-logcliQuery: "logcli_query"
-cronSchedule: "0 0 * * *"
+
+instances: {}
+  #auditd:
+  #  cronSchedule: "0 1 * * *"
+  #  logcliQuery: "{}"
+  #  startTime: "yesterday 00:00:00"
+  #  endTime: "today 00:00:00"
