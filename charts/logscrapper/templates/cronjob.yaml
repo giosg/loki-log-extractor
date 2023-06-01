@@ -13,23 +13,23 @@ spec:
               image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
               imagePullPolicy: {{ .Values.image.pullPolicy }}
               env:
-                - name: LOGCLI_PATH
-                  value: {{ .Values.logcliPath }}
-                - name: LOG_ENDPOINT
-                  value: {{ .Values.logEndpoint }}
-                - name: START_TIME
-                  value: {{ .Values.startTime }}
-                - name: END_TIME
-                  value: {{ .Values.endTime }}
-                - name: OUTPUT_FILE
-                  value: {{ .Values.outputFile }}
-                - name: COMPRESSED_FILE
-                  value: {{ .Values.compressedFile }}
-                - name: ENCRYPTED_FILE
-                  value: {{ .Values.encryptedFile }}
-                - name: S3_BUCKET
-                  value: {{ .Values.s3Bucket }}
-                - name: AWS_ACCESS_KEY_ID
+              - name: LOGCLI_PATH
+                value: {{ .Values.logcliPath }}
+              - name: LOG_ENDPOINT
+                value: {{ .Values.logEndpoint }}
+              - name: START_TIME
+                value: {{ .Values.startTime }}
+              - name: END_TIME
+                value: {{ .Values.endTime }}
+              - name: OUTPUT_FILE
+                value: {{ .Values.outputFile }}
+              - name: COMPRESSED_FILE
+                value: {{ .Values.compressedFile }}
+              - name: ENCRYPTED_FILE
+                value: {{ .Values.encryptedFile }}
+              - name: S3_BUCKET
+                value: {{ .Values.s3Bucket }}
+              - name: AWS_ACCESS_KEY_ID
                 valueFrom:
                   secretKeyRef:
                     name: {{ .Values.awsSecretName }}
@@ -46,6 +46,6 @@ spec:
                   secretKeyRef:
                     name: {{ .Values.gpgSecretName }}
                     key: gpgPublicKey
-            command: ["/bin/bash"]
+              command: ["/bin/bash"]
               args: ["logscapper.sh", "{{ .Values.logcliQuery }}"]
           restartPolicy: OnFailure
