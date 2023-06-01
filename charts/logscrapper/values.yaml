@@ -1,12 +1,18 @@
-image: giosg/logscrapper
-tag: latest
+image:
+  repository: giosg/logscrapper
+  tag: latest
+  pullPolicy: IfNotPresent
+
 logEndpoint: "http://localhost"
+
 startTime: "yesterday 00:00:00"
 endTime: "today 00:00:00"
+
 s3Path: Null
-awsAccessKeyId: Null
-awsSecretAccessKey: Null
+awsAccessKeyId: ""
+awsSecretAccessKey: ""
 awsDefaultRegion: "eu-west-1"
-gpgPublicKey: Null
+
+gpgPublicKey: ""
 logcliQuery: "logcli_query"
 cronSchedule: "0 0 * * *"

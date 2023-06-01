@@ -39,8 +39,7 @@ spec:
                     key: awsSecretAccessKey
               - name: AWS_DEFAULT_REGION
                 value: {{ .Values.awsDefaultRegion }}
-              command: ["/bin/bash"]
-              args: ["logscapper.sh", "{{ .Values.logcliQuery }}"]
+              args: ["{{ .Values.logcliQuery }}"]
               volumeMounts:
               - name: gpg
                 readOnly: true
