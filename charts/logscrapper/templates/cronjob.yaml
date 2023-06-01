@@ -15,6 +15,8 @@ spec:
           - name: gpg
             secret:
               secretName: {{ template "logscrapper.fullname" $ }}-gpg
+          - name: cache
+            emptyDir: {}
           containers:
           - name: logscrapper
             image: {{ $.Values.image.repository }}:{{ $.Values.image.tag }}
@@ -42,10 +44,14 @@ spec:
                   key: awsSecretAccessKey
             - name: AWS_DEFAULT_REGION
               value: {{ $.Values.awsDefaultRegion }}
+            - name: PART_PATH_PREFIX
+              value: "/cache"
             args: ['{{ $v.logcliQuery }}']
             volumeMounts:
             - name: gpg
               readOnly: true
               mountPath: "/etc/gpg"
+            - mountPath: /cache
+              name: cache
           restartPolicy: OnFailure
 {{- end }}
