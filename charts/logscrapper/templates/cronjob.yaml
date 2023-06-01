@@ -8,6 +8,10 @@ spec:
     spec:
       template:
         spec:
+          volumes:
+          - name: gpg
+            secret:
+              secretName: {{ template "logscrapper.fullname" . }}-gpg
           containers:
             - name: {{ .Release.Name }}
               image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -32,20 +36,19 @@ spec:
               - name: AWS_ACCESS_KEY_ID
                 valueFrom:
                   secretKeyRef:
-                    name: {{ .Values.awsSecretName }}
+                    name: {{ template "logscrapper.fullname" . }}
                     key: awsAccessKeyId
               - name: AWS_SECRET_ACCESS_KEY
                 valueFrom:
                   secretKeyRef:
-                    name: {{ .Values.awsSecretName }}
+                    name: {{ template "logscrapper.fullname" . }}
                     key: awsSecretAccessKey
               - name: AWS_DEFAULT_REGION
                 value: {{ .Values.awsDefaultRegion }}
-              - name: GPG_PUBLIC_KEY
-                valueFrom:
-                  secretKeyRef:
-                    name: {{ .Values.gpgSecretName }}
-                    key: gpgPublicKey
               command: ["/bin/bash"]
               args: ["logscapper.sh", "{{ .Values.logcliQuery }}"]
+              volumeMounts:
+              - name: gpg
+                readOnly: true
+                mountPath: "/etc/gpg"
           restartPolicy: OnFailure
