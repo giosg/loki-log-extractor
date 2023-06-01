@@ -18,6 +18,10 @@ spec:
             {{- include "logscrapper.selectorLabels" $ | nindent 12 }}
             app.kubernetes.io/component: {{ $k }}
         spec:
+          {{- with $.Values.image.imagePullSecrets }}
+          imagePullSecrets:
+          {{- toYaml . | nindent 10 }}
+          {{- end }}
           volumes:
           - name: gpg
             secret:

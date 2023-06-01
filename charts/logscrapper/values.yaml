@@ -2,6 +2,7 @@ image:
   repository: giosg/logscrapper
   tag: latest
   pullPolicy: IfNotPresent
+  imagePullSecrets: []
 
 logEndpoint: "http://localhost"
 
