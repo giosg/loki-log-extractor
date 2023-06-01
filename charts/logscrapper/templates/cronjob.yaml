@@ -5,11 +5,18 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: {{ template "logscrapper.fullname" $ }}-{{ $k }}
+  labels:
+    {{- include "logscrapper.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: {{ $k }}
 spec:
   schedule: {{ $v.cronSchedule }}
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            {{- include "logscrapper.selectorLabels" $ | nindent 12 }}
+            app.kubernetes.io/component: {{ $k }}
         spec:
           volumes:
           - name: gpg
