@@ -11,7 +11,7 @@ OUTPUT_FILE="$(date --date='yesterday' '+%F').txt"
 COMPRESSED_FILE="$OUTPUT_FILE.xz"
 ENCRYPTED_FILE="$COMPRESSED_FILE.gpg"
 : ${MAX_ARCHIVE_SIZE:=10485760}
-: ${GPG_PUBLIC_KEY_PATH:=secrets/gpg_public_key.asc}
+: ${GPG_PUBLIC_KEY_FILE:=secrets/gpg_public_key.asc}
 : ${PART_PATH_PREFIX:=/tmp/my_query}
 : ${PARALLEL_MAX_WORKERS:=4}
 
@@ -28,12 +28,12 @@ if [ -z "$QUERY" ]; then
     exit 1
 fi
 
-if [[ -z "$GPG_PUBLIC_KEY_PATH" || ! -f "$GPG_PUBLIC_KEY_PATH" ]]; then
+if [[ -z "$GPG_PUBLIC_KEY_FILE" || ! -f "$GPG_PUBLIC_KEY_FILE" ]]; then
     echo "Public key file doesn't exist or is not specified."
     exit 1;
 fi
 
-gpg --import "$GPG_PUBLIC_KEY_PATH"
+gpg --import "$GPG_PUBLIC_KEY_FILE"
 
 if [ -d "$(dirname "$PART_PATH_PREFIX")" ]; then
    FILENAME_PREFIX=$(echo "$QUERY" | tr -d '\"\/_')
