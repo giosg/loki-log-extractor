@@ -53,5 +53,5 @@ spec:
               mountPath: "/etc/gpg"
             - mountPath: /cache
               name: cache
-          restartPolicy: OnFailure
+          restartPolicy: Never
 {{- end }}
