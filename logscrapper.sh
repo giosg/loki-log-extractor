@@ -57,7 +57,7 @@ if [ -d "$(dirname "$PART_PATH_PREFIX")" ]; then
     if [ -f "$COMPRESSED_FILE" ]  && [ "$FILE_SIZE" -lt "$MAX_ARCHIVE_SIZE" ]; then # Remove xz --test "$COMPRESSED_FILE" 2>/dev/null
     gpg --trust-model always --output "$ENCRYPTED_FILE" --encrypt --recipient "$GPG_RECIPIENT" "$COMPRESSED_FILE"      #Add recepient as configurable
     else
-        echo "Archive file doesn't exist or the size of archive is more than 10 MB" >/dev/stderr
+        echo "Archive file doesn't exist or the size of archive is more than $MAX_ARCHIVE_SIZE bytes." >/dev/stderr
         exit 1;
     fi
 
