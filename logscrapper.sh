@@ -26,12 +26,12 @@ QUERY="$1"
 
 # Check if the logcli query is empty
 if [ -z "$QUERY" ]; then
-    echo "Logcli query is empty."
+    echo "Logcli query is empty." >/dev/stderr
     exit 1
 fi
 
 if [[ -z "$GPG_PUBLIC_KEY_FILE" || ! -f "$GPG_PUBLIC_KEY_FILE" ]]; then
-    echo "Public key file doesn't exist or is not specified."
+    echo "Public key file doesn't exist or is not specified." >/dev/stderr
     exit 1;
 fi
 
@@ -46,7 +46,8 @@ if [ -d "$(dirname "$PART_PATH_PREFIX")" ]; then
     if [ $? -eq 0 ]; then
         echo "Log scraping successful. Output saved to $OUTPUT_FILE"
     else
-        echo "Log scraping failed."
+        echo "Log scraping failed." >/dev/stderr
+        exit 1
     fi
 
     xz "$OUTPUT_FILE"
@@ -56,18 +57,18 @@ if [ -d "$(dirname "$PART_PATH_PREFIX")" ]; then
     if [ -f "$COMPRESSED_FILE" ]  && [ "$FILE_SIZE" -lt "$MAX_ARCHIVE_SIZE" ]; then # Remove xz --test "$COMPRESSED_FILE" 2>/dev/null
     gpg --trust-model always --output "$ENCRYPTED_FILE" --encrypt --recipient "$GPG_RECIPIENT" "$COMPRESSED_FILE"      #Add recepient as configurable
     else
-        echo "Archive file doesn't exist or the size of archive is more than 10 MB"
+        echo "Archive file doesn't exist or the size of archive is more than 10 MB" >/dev/stderr
         exit 1;
     fi
 
     if aws s3 ls "s3://$S3_PATH" 2>/dev/null; then
             aws s3 cp "$ENCRYPTED_FILE"  "s3://$S3_PATH/${ENCRYPTED_FILE}"
     else
-        echo "AWS S3 bucket doesn't exist."
+        echo "AWS S3 path doesn't exist." >/dev/stderr
         exit 1;
     fi
-    echo "The archive was uploaded successfully"
+    echo "The archive was uploaded successfully. Output transferred to: $S3_PATH/$ENCRYPTED_FILE"
 else
-    echo "Path prefix doesn't exist."
+    echo "Path prefix doesn't exist." >/dev/stderr
     exit 1;
 fi
