@@ -1,6 +1,5 @@
 image: giosg/logscrapper
 tag: latest
-secretEnv: {}
 logcliPath: "/path/to/logcli"
 logEndpoint: "http://example.com/logs"
 startTime: "$(date -d 'yesterday' -u +%Y-%m-%dT%H:%M:%SZ)"
