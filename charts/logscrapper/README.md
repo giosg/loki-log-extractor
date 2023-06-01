@@ -11,23 +11,27 @@ This Helm chart deploys a CronJob in Kubernetes to run a Docker image that execu
 
 The following table lists the configurable parameters of the My Chart:
 
-| Parameter               | Description                          | Default                              |
-|-------------------------|--------------------------------------|--------------------------------------|
-| `logcliPath`            | Path to logcli executable             | "/path/to/logcli"                    |
-| `lokiaddr`              | Log endpoint URL                      | "http://example.com/logs"            |
-| `startTime`             | Start time for log query              | "2023-05-01T00:00:00Z"               |
-| `endTime`               | End time for log query                | "2023-05-15T23:59:59Z"               |
-| `outputFile`            | Output file name                      | "logs_output.txt"                    |
-| `compressedFile`        | Compressed file name                  | "logs_output.txt.gz"                 |
-| `encryptedFile`         | Encrypted file name                   | "logs_output.txt.gz.gpg"             |
-| `s3Bucket`              | S3 bucket name for log storage        | "your-s3-bucket"                     |
-| `awsSecretName`         | Name of the AWS credentials secret    | "aws-credentials"                    |
-| `gpgSecretName`         | Name of the GPG public key secret      | "gpg-public-key"                     |
-| `logcliQuery`           | Logcli query to execute                | "logcli_query"                       |
-| `cronSchedule`          | Cron schedule for the CronJob         | "0 0 * * *"                          |
-| `image.repository`      | Docker image repository               | (required)                            |
-| `image.tag`             | Docker image tag                      | (required)                            |
-| `image.pullPolicy`      | Docker image pull policy              | "IfNotPresent"                        |
+| Parameter                | Description                          | Default                              |
+|--------------------------|--------------------------------------|--------------------------------------|
+| `image.repository`       | Docker image repository              | giosg/logscrapper                    |
+| `image.tag`              | Docker image tag                     | latest                               |
+| `image.pullPolicy`       | Docker image pull policy             | IfNotPresent                         |
+| `image.imagePullSecrets` | List of imagePullSecret names        | _empty list_                         |
+| `logEndpoint`            | Log endpoint URL                     | http://localhost                     |
+| `awsAccessKeyId`         | AWS Access Key ID                    | _empty_                              |
+| `awsSecretAccessKey`     | AWS Secret Access Key                | _empty_                              |
+| `awsDefaultRegion`       | AWS default region                   | eu-west-1                            |
+| `s3Path`                 | S3 path for log storage              | _empty_                              |
+| `gpgPublicKey`           | gpg public key                       | _empty_                              |
+
+Specify a dict of queries for which cronjobs will be created under `instances`. By default instances dict is empty (no cronjobs will be installed).
+
+| Parameter                | Description                          |
+|--------------------------|--------------------------------------|
+| `name.cronSchedule`      | Cron schedule for the CronJob        |
+| `name.logcliQuery`       | Logcli query to execute              |
+| `name.startTime`         | Start time for log query             |
+| `name.endTime`           | End time for log query               |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. Alternatively, you can create a YAML file containing the values and provide it to the `helm install` command with the `-f` or `--values` flag.
 
