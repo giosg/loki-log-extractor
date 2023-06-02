@@ -25,6 +25,7 @@ The following table lists the configurable parameters of the My Chart:
 | `awsDefaultRegion`       | AWS default region                   | eu-west-1                            |
 | `s3Url`                  | S3 URL for log storage               | _empty_                              |
 | `gpgPublicKey`           | gpg public key                       | _empty_                              |
+| `gpgRecipient`           | gpg encrypted message recipient      | _empty_                              |
 
 Specify a dict of queries for which cronjobs will be created under `instances`. By default instances dict is empty (no cronjobs will be installed).
 

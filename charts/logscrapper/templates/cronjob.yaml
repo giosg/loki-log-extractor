@@ -33,14 +33,18 @@ spec:
             image: {{ $.Values.image.repository }}:{{ $.Values.image.tag }}
             imagePullPolicy: {{ $.Values.image.pullPolicy }}
             env:
-            - name: LOG_ENDPOINT
-              value: {{ $.Values.logEndpoint }}
+            - name: QUERY_NAME
+              value: {{ $k | quote }}
+            - name: LOKI_ADDR
+              value: {{ $.Values.logEndpoint | quote }}
             - name: START_TIME
-              value: {{ $v.startTime }}
+              value: {{ $v.startTime | quote }}
             - name: END_TIME
-              value: {{ $v.endTime }}
+              value: {{ $v.endTime | quote }}
             - name: S3_URL
-              value: {{ $.Values.s3Url }}
+              value: {{ $.Values.s3Url | quote }}
+            - name: GPG_RECIPIENT
+              value: {{ $.Values.gpgRecipient | quote }}
             - name: GPG_PUBLIC_KEY_FILE
               value: "/etc/gpg/gpg_public_key.asc"
             - name: AWS_ACCESS_KEY_ID
@@ -54,7 +58,7 @@ spec:
                   name: {{ template "logscrapper.fullname" $ }}
                   key: awsSecretAccessKey
             - name: AWS_DEFAULT_REGION
-              value: {{ $.Values.awsDefaultRegion }}
+              value: {{ $.Values.awsDefaultRegion | quote }}
             - name: PART_PATH_PREFIX
               value: "/cache"
             args: ['{{ $v.logcliQuery }}']

@@ -12,6 +12,7 @@ awsDefaultRegion: "eu-west-1"
 s3Url: ""
 
 gpgPublicKey: ""
+gpgRecipient: ""
 
 instances: {}
   #auditd:
