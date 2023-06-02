@@ -7,7 +7,7 @@ set -e
 : ${START_TIME:="yesterday 23:00"}
 : ${END_TIME:="today 09:00"}
 : ${GPG_RECIPIENT:="null"}
-: ${S3_PATH:="null"}
+: ${S3_URL:="null"}
 : ${MAX_ARCHIVE_SIZE:=10485760}
 : ${GPG_PUBLIC_KEY_FILE:=/tmp/gpg_public_key.asc}
 : ${PART_PATH_PREFIX:=/tmp/logcli}
@@ -61,13 +61,13 @@ if [ -d "$(dirname "$PART_PATH_PREFIX")" ]; then
         exit 1;
     fi
 
-    if aws s3 ls "s3://$S3_PATH" 2>/dev/null; then
-            aws s3 cp "$ENCRYPTED_FILE"  "s3://$S3_PATH/${ENCRYPTED_FILE}"
+    if aws s3 ls "$S3_URL" 2>/dev/null; then
+            aws s3 cp "$ENCRYPTED_FILE"  "$S3_URL/${ENCRYPTED_FILE}"
     else
         echo "AWS S3 path doesn't exist." >/dev/stderr
         exit 1;
     fi
-    echo "The archive was uploaded successfully. Output transferred to: $S3_PATH/$ENCRYPTED_FILE"
+    echo "The archive was uploaded successfully to: $S3_URL/$ENCRYPTED_FILE"
 else
     echo "Path prefix doesn't exist." >/dev/stderr
     exit 1;

@@ -39,8 +39,8 @@ spec:
               value: {{ $v.startTime }}
             - name: END_TIME
               value: {{ $v.endTime }}
-            - name: S3_PATH
-              value: {{ $.Values.s3Path }}
+            - name: S3_URL
+              value: {{ $.Values.s3Url }}
             - name: GPG_PUBLIC_KEY_FILE
               value: "/etc/gpg/gpg_public_key.asc"
             - name: AWS_ACCESS_KEY_ID

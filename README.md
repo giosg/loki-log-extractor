@@ -23,7 +23,7 @@ The following table lists the configurable parameters of the My Chart:
 | `awsAccessKeyId`         | AWS Access Key ID                    | _empty_                              |
 | `awsSecretAccessKey`     | AWS Secret Access Key                | _empty_                              |
 | `awsDefaultRegion`       | AWS default region                   | eu-west-1                            |
-| `s3Path`                 | S3 path for log storage              | _empty_                              |
+| `s3Url`                  | S3 URL for log storage               | _empty_                              |
 | `gpgPublicKey`           | gpg public key                       | _empty_                              |
 
 Specify a dict of queries for which cronjobs will be created under `instances`. By default instances dict is empty (no cronjobs will be installed).

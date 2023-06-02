@@ -9,7 +9,7 @@ logEndpoint: "http://localhost"
 awsAccessKeyId: ""
 awsSecretAccessKey: ""
 awsDefaultRegion: "eu-west-1"
-s3Path: ""
+s3Url: ""
 
 gpgPublicKey: ""
 
