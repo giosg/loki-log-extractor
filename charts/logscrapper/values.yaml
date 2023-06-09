@@ -1,0 +1,22 @@
+image:
+  repository: giosg/logscrapper
+  tag: latest
+  pullPolicy: IfNotPresent
+  imagePullSecrets: []
+
+logEndpoint: "http://localhost"
+
+awsAccessKeyId: ""
+awsSecretAccessKey: ""
+awsDefaultRegion: "eu-west-1"
+s3Url: ""
+
+gpgPublicKey: ""
+gpgRecipient: ""
+
+instances: {}
+  #auditd:
+  #  cronSchedule: "0 1 * * *"
+  #  logcliQuery: "{}"
+  #  startTime: "yesterday 00:00:00"
+  #  endTime: "today 00:00:00"
