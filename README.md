@@ -58,7 +58,7 @@ The GPG public key secret should contain the following key:
 ## Installing the Chart
 
 ```ShellSession
-$ helm install --dry-run --debug -n loki logscrapper logscrapper
+$ helm install -n loki logscrapper logscrapper --dry-run --debug
 ```
 
 For full installation please remove from the command above two options:

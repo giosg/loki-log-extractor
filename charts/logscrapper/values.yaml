@@ -1,5 +1,5 @@
 image:
-  repository: giosg/logscrapper
+  repository: giosg/logcli
   tag: latest
   pullPolicy: IfNotPresent
   imagePullSecrets: []

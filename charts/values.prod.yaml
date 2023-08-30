@@ -1,10 +1,10 @@
 image:
+  tag: 0.1
   imagePullSecrets:
     - name: giosg.hub.docker.com
 
 logEndpoint: "http://prod-loki-001.node.fsn1-prod.giosg.local:3100/"
 
-awsAccessKeyId: "AKIAX55KEK4DV7SC62M6"
 awsDefaultRegion: "eu-west-1"
 s3Url: "s3://de.logs.giosg.com/audit/prod-loki"
 
