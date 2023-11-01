@@ -8,7 +8,7 @@ set -e
 : ${END_TIME:="today 09:00"}
 : ${GPG_RECIPIENT:="null"}
 : ${S3_URL:="null"}
-: ${MAX_ARCHIVE_SIZE:=10485760}
+: ${MAX_ARCHIVE_SIZE:=509715200}
 : ${GPG_PUBLIC_KEY_FILE:=/tmp/gpg_public_key.asc}
 : ${PART_PATH_PREFIX:=/tmp/logcli}
 : ${PARALLEL_MAX_WORKERS:=4}
@@ -39,7 +39,7 @@ gpg --import "$GPG_PUBLIC_KEY_FILE"
 
 if [ -d "$(dirname "$PART_PATH_PREFIX")" ]; then
     # Run logcli with the specified query and time range, and save the output to a file
-    "$LOGCLI_PATH"   query "$QUERY" --timezone=UTC --from="$INPUT_TIME" --to="$OUTPUT_TIME"  --output=default --parallel-duration="5m" \
+    "$LOGCLI_PATH"   query "$QUERY" --timezone=UTC --from="$INPUT_TIME" --to="$OUTPUT_TIME" --retries=3  --output=default --parallel-duration="1h" \
       --part-path-prefix="$PART_PATH_PREFIX" --merge-parts --parallel-max-workers="$PARALLEL_MAX_WORKERS" --quiet > "$OUTPUT_FILE"
 
     # Check if logcli executed successfully
@@ -57,7 +57,7 @@ if [ -d "$(dirname "$PART_PATH_PREFIX")" ]; then
     if [ -f "$COMPRESSED_FILE" ]  && [ "$FILE_SIZE" -lt "$MAX_ARCHIVE_SIZE" ]; then # Remove xz --test "$COMPRESSED_FILE" 2>/dev/null
     gpg --trust-model always --output "$ENCRYPTED_FILE" --encrypt --recipient "$GPG_RECIPIENT" "$COMPRESSED_FILE"      #Add recepient as configurable
     else
-        echo "Archive file doesn't exist or the size of archive is more than $MAX_ARCHIVE_SIZE bytes." >/dev/stderr
+        echo "Archive file doesn't exist or the size of archive($FILE_SIZE) is more than $MAX_ARCHIVE_SIZE bytes." >/dev/stderr
         exit 1;
     fi
 

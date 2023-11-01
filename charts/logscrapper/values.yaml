@@ -20,3 +20,12 @@ instances: {}
   #  logcliQuery: "{}"
   #  startTime: "yesterday 00:00:00"
   #  endTime: "today 00:00:00"
+
+resources:
+  {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
