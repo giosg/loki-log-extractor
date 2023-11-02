@@ -17,3 +17,11 @@ instances:
     logcliQuery: '{is_audit="is_audit"}'
     startTime: "yesterday 00:00:00"
     endTime: "today 00:00:00"
+
+resources:
+  limits:
+    cpu: 4
+    memory: 6Gi
+  requests:
+    cpu: 1
+    memory: 2Gi

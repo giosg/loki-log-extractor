@@ -1,7 +1,7 @@
 {{- $ := . }}
 {{- range $k, $v := .Values.instances }}
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ template "logscrapper.fullname" $ }}-{{ $k }}
@@ -10,6 +10,7 @@ metadata:
     app.kubernetes.io/component: {{ $k }}
 spec:
   schedule: {{ $v.cronSchedule }}
+  concurrencyPolicy: Forbid
   jobTemplate:
     spec:
       template:
@@ -32,6 +33,8 @@ spec:
           - name: logscrapper
             image: {{ $.Values.image.repository }}:{{ $.Values.image.tag }}
             imagePullPolicy: {{ $.Values.image.pullPolicy }}
+            resources:
+              {{- toYaml $.Values.resources | nindent 14 }}
             env:
             - name: QUERY_NAME
               value: {{ $k | quote }}
@@ -69,4 +72,5 @@ spec:
             - mountPath: /cache
               name: cache
           restartPolicy: Never
+
 {{- end }}
