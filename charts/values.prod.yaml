@@ -1,5 +1,5 @@
 image:
-  tag: "2.0"
+  tag: "2.1"
   imagePullSecrets:
     - name: giosg.hub.docker.com
 
