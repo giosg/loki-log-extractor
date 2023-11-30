@@ -100,7 +100,6 @@ do
         OUTPUT_FILE="$(echo "$QUERY_NAME" | tr -d '\"\/_')_$(date -d "$INPUT_TIME" +%Y%m%dT%H%M%SZ)_$(date -d "$OUTPUT_TIME" +%Y%m%dT%H%M%SZ).log"
         get_logs "$INPUT_TIME" "$OUTPUT_TIME" "$OUTPUT_FILE"
         encrypt_compress_and_upload "$OUTPUT_FILE"
-        exit 1
     fi
 done
 
