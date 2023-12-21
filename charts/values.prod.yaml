@@ -15,7 +15,7 @@ gpgRecipient: "s3logs@giosg.com"
 instances:
   auditd:
     cronSchedule: "0 1 * * *"
-    logcliQuery: '{is_audit="true",is_audit="is_audit"}'
+    logcliQuery: '{is_audit=~"is_audit|true"}'
     startTime: "yesterday 00:00:00"
     endTime: "today 00:00:00"
 
